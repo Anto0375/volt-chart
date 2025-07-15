@@ -2,13 +2,13 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>Chart Demo</title>
+  <title>Static Chart Demo</title>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
-    body, html {
+    html, body {
+      height: 100%;
       margin: 0;
       padding: 0;
-      height: 100%;
     }
     canvas {
       width: 100% !important;
@@ -18,20 +18,20 @@
 </head>
 <body>
   <canvas id="myChart"></canvas>
-  <script>
-    var myChart;
 
+  <script>
     window.onload = function () {
       const ctx = document.getElementById('myChart').getContext('2d');
-      myChart = new Chart(ctx, {
+
+      const myChart = new Chart(ctx, {
         type: 'bar',
         data: {
-          labels: [],
+          labels: ["Jan", "Feb", "Mar", "Apr", "May"],
           datasets: [{
-            label: 'Volt MX Chart',
-            data: [],
-            backgroundColor: 'rgba(75, 192, 192, 0.6)',
-            borderColor: 'rgba(75, 192, 192, 1)',
+            label: "Static Sales",
+            data: [12, 19, 3, 5, 2],
+            backgroundColor: 'rgba(255, 99, 132, 0.6)',
+            borderColor: 'rgba(255, 99, 132, 1)',
             borderWidth: 1
           }]
         },
@@ -46,18 +46,6 @@
         }
       });
     };
-
-    // This function will be called from Volt MX
-    function updateChartFromVoltMX(data) {
-      try {
-        const parsed = JSON.parse(data);
-        myChart.data.labels = parsed.labels;
-        myChart.data.datasets[0].data = parsed.values;
-        myChart.update();
-      } catch (e) {
-        alert("Chart update failed: " + e.message);
-      }
-    }
   </script>
 </body>
 </html>
