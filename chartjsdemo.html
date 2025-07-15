@@ -2,10 +2,10 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>Chart</title>
+  <title>Chart Demo</title>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
-    html, body {
+    body, html {
       margin: 0;
       padding: 0;
       height: 100%;
@@ -19,19 +19,19 @@
 <body>
   <canvas id="myChart"></canvas>
   <script>
-    let myChart;
+    var myChart;
 
     window.onload = function () {
-      const ctx = document.getElementById("myChart").getContext("2d");
+      const ctx = document.getElementById('myChart').getContext('2d');
       myChart = new Chart(ctx, {
-        type: "bar",
+        type: 'bar',
         data: {
           labels: [],
           datasets: [{
-            label: "Dynamic Sales",
+            label: 'Volt MX Chart',
             data: [],
-            backgroundColor: "rgba(54, 162, 235, 0.6)",
-            borderColor: "rgba(54, 162, 235, 1)",
+            backgroundColor: 'rgba(75, 192, 192, 0.6)',
+            borderColor: 'rgba(75, 192, 192, 1)',
             borderWidth: 1
           }]
         },
@@ -39,18 +39,24 @@
           responsive: true,
           maintainAspectRatio: false,
           scales: {
-            y: { beginAtZero: true }
+            y: {
+              beginAtZero: true
+            }
           }
         }
       });
     };
 
-    // Called from Volt MX via evaluateJavaScript
-    function updateChartFromVoltMX(dataJson) {
-      const data = JSON.parse(dataJson);
-      myChart.data.labels = data.labels;
-      myChart.data.datasets[0].data = data.values;
-      myChart.update();
+    // This function will be called from Volt MX
+    function updateChartFromVoltMX(data) {
+      try {
+        const parsed = JSON.parse(data);
+        myChart.data.labels = parsed.labels;
+        myChart.data.datasets[0].data = parsed.values;
+        myChart.update();
+      } catch (e) {
+        alert("Chart update failed: " + e.message);
+      }
     }
   </script>
 </body>
